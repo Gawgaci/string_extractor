@@ -1,10 +1,10 @@
-# 🚀 Akademik Proje Yol Haritası: Güvenlik ve Tersine Mühendislik
+#  Akademik Proje Yol Haritası: Güvenlik ve Tersine Mühendislik
 
 Bu doküman, "Güvenli Web Yazılımı Geliştirme" ve "Tersine Mühendislik" dersleri kapsamında yürütülecek olan üç bağımsız projenin teknik uygulama adımlarını ve analiz hedeflerini içermektedir.
 
 ---
 
-## 🏗️ PROJE 1: Gitleaks Altyapı ve Güvenlik Analizi (Zorunlu Ortak Kısım)
+##  PROJE 1: Gitleaks Altyapı ve Güvenlik Analizi (Zorunlu Ortak Kısım)
 *Hedef: Kategori 1 (SecOps) listesinde bulunan Gitleaks açık kaynak projesinin kurulum, izolasyon, CI/CD ve kaynak kod güvenliğini "Güvenlik Uzmanı" perspektifiyle denetlemek.*
 
 ### Adım 1: Kurulum ve `install.sh` Analizi (Reverse Engineering)
@@ -29,7 +29,7 @@ Bu doküman, "Güvenli Web Yazılımı Geliştirme" ve "Tersine Mühendislik" de
 
 ---
 
-## 🛡️ PROJE 2: Güvenli Web Yazılımı Geliştirme (Bağımsız Proje)
+##  PROJE 2: Güvenli Web Yazılımı Geliştirme (Bağımsız Proje)
 **Konu: Kimlik Doğrulama ve Oturum Güvenliği (JWT Security)**
 
 - **Amacı:** Web uygulamalarında sıkça karşılaşılan "Broken Authentication" (Bozuk Kimlik Doğrulama) zafiyetlerini engellemek için güvenli bir JSON Web Token (JWT) mimarisi kurgulamak.
@@ -41,7 +41,7 @@ Bu doküman, "Güvenli Web Yazılımı Geliştirme" ve "Tersine Mühendislik" de
 
 ---
 
-## 🔍 PROJE 3: Tersine Mühendislik (Bağımsız Proje)
+##  PROJE 3: Tersine Mühendislik (Bağımsız Proje)
 **Konu: 8. String Çıkarıcı (Safe String Extractor) - RUST İLE TAMAMLANDI**
 
 - **Amacı:** Zararlı yazılımların (Malware) PE/ELF bölümlerindeki gizli C2 (Komuta Kontrol) sunucu adreslerini, IP'leri ve URL'leri tespit etmek.
@@ -54,7 +54,7 @@ Bu doküman, "Güvenli Web Yazılımı Geliştirme" ve "Tersine Mühendislik" de
 
 ---
 
-## 📅 Takvim ve Teslimat
+##  Takvim ve Teslimat
 1. **1. Aşama:** Proje 3 (String Extractor) - Tamamlandı ve GitHub'a eklendi.
 2. **2. Aşama:** Proje 1 (Gitleaks) - 5 Adımlık Teknik Analiz Raporunun Hazırlanması.
 3. **3. Aşama:** Proje 2 (JWT Güvenliği) - Web zafiyeti koruma senaryosunun kodlanması.
