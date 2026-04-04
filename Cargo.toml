@@ -1,9 +1,8 @@
 [package]
 name = "string_extractor"
 version = "0.1.0"
-edition = "2024"
+edition = "2021"
 
 [dependencies]
-object = "0.32"
-regex = "1.10"
-serde_json = "1.0"
+object = "0.36"
+regex = "1.11"
