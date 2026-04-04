@@ -2,7 +2,7 @@ use object::{Object, ObjectSection};
 use regex::bytes::Regex;
 use std::{env, fs, process};
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() < 2 {
         eprintln!("[!] Kullanım: {} <binary_dosya_yolu>", args[0]);
@@ -15,6 +15,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("========================================");
     println!("Hedef: {}", target_file);
 
+    if let Err(e) = run_analysis(target_file) {
+        eprintln!("[!] Hata: {}", e);
+        process::exit(1);
+    }
+}
+
+fn run_analysis(target_file: &str) -> Result<(), Box<dyn std::error::Error>> {
     // Binary dosyasını oku
     let binary_data = fs::read(target_file)
         .map_err(|e| format!("Dosya okunamadı: {}", e))?;
@@ -28,6 +35,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let url_regex = Regex::new(r"https?://[a-zA-Z0-9./?=_%&#-]+")?;
 
     let mut found = false;
+
+    println!("\nAnaliz ediliyor...");
 
     for section in file.sections() {
         let section_name = section.name().unwrap_or("<unknown>");
@@ -52,6 +61,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         println!("[+] Temiz: Şüpheli ağ göstergesi (IP/URL) bulunamadı.");
     }
 
-    println!("========================================\n");
+    println!("\n========================================\n");
     Ok(())
 }
