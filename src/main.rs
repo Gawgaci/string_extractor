@@ -22,33 +22,29 @@ fn main() {
 }
 
 fn run_analysis(target_file: &str) -> Result<(), Box<dyn std::error::Error>> {
-    // Binary dosyasını oku
     let binary_data = fs::read(target_file)
         .map_err(|e| format!("Dosya okunamadı: {}", e))?;
 
-    // Binary parse et (PE veya ELF destekler)
     let file = object::File::parse(&*binary_data)
         .map_err(|e| format!("Binary parse hatası: {}", e))?;
 
-    // Regex'ler (binary seviyesinde)
     let ip_regex = Regex::new(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")?;
     let url_regex = Regex::new(r"https?://[a-zA-Z0-9./?=_%&#-]+")?;
 
     let mut found = false;
 
-    println!("\nAnaliz ediliyor...");
-
     for section in file.sections() {
         let section_name = section.name().unwrap_or("<unknown>");
         if let Ok(data) = section.data() {
-            // IP Tespiti
             for mat in ip_regex.find_iter(data) {
                 let ip = String::from_utf8_lossy(mat.as_bytes());
-                println!("[SECTION: {:<12}] 🔥 KRİTİK IP (C2?) → {}", section_name, ip);
-                found = true;
+                // Basit filtre: 0.0.0.0 ve 255.255.255.255 gibi geçersiz IP'leri atla
+                if ip != "0.0.0.0" && ip != "255.255.255.255" {
+                    println!("[SECTION: {:<12}] 🔥 KRİTİK IP (C2?) → {}", section_name, ip);
+                    found = true;
+                }
             }
 
-            // URL Tespiti
             for mat in url_regex.find_iter(data) {
                 let url = String::from_utf8_lossy(mat.as_bytes());
                 println!("[SECTION: {:<12}] 🌐 ŞÜPHELİ URL (C2/Callback) → {}", section_name, url);
@@ -61,6 +57,6 @@ fn run_analysis(target_file: &str) -> Result<(), Box<dyn std::error::Error>> {
         println!("[+] Temiz: Şüpheli ağ göstergesi (IP/URL) bulunamadı.");
     }
 
-    println!("\n========================================\n");
+    println!("========================================\n");
     Ok(())
 }
