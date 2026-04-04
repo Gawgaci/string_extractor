@@ -9,7 +9,7 @@ Bu proje, **Tersine Mühendislik** dersi vize ödevi kapsamında geliştirilmiş
 * **Regex Motoru:** `regex::bytes` (Binary veriler içinde ham bayt seviyesinde arama yapmak için).
 * **Analiz Yaklaşımı:** "Section-Aware Parsing" yöntemiyle dosyanın sadece `.text`, `.data` veya `.rdata` gibi belirli bölümleri taranarak yanlış pozitif (False Positive) oranı minimize edilmiştir.
 
-##  Öne Çıkan Özellikler (Hocanın Beklentileri)
+##  Öne Çıkan Özellikler 
 1.  **Hata Yönetimi (Result<>):** Kod içerisinde `unwrap()` kullanılmamış, tüm dosya okuma ve ayrıştırma süreçleri Rust'ın `Result` yapısıyla güvenli hale getirilmiştir.
 2.  **Otomatik Sınıflandırma:** Bulunan stringler sadece ekrana basılmaz; IPv4 adresleri ve HTTP/HTTPS uç noktaları olarak kategorize edilir.
 3.  **Cross-Platform Destek:** Hem Windows (PE) hem de Linux (ELF) dosyalarını aynı motor üzerinden analiz edebilir.
