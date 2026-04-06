@@ -14,14 +14,11 @@ Modern malware’ler C2 adreslerini, callback URL’lerini ve komuta-kontrol alt
 
 Bu zafiyet, tersine mühendislik yapan saldırganların veya savunma ekiplerinin malware’in komuta-kontrol altyapısını hızlıca haritalandırmasına olanak tanır. Birçok malware, bu bilgileri şifrelemeden veya obfuskasyon uygulamadan binary’ye gömer.
 
-## Zafiyet Çözümü ve Kullanılan Teknikler
-
-- **Section-Aware Parsing**: `object` crate’i ile binary’nin sadece ilgili section’larını tarar. Tüm binary’yi byte-byte taramak yerine, `.text`, `.data`, `.rsrc` gibi bölümleri tek tek inceler.
-- **Regex ile Pattern Matching**: `regex::bytes` kullanılarak binary seviyesinde IP ve HTTP/HTTPS URL desenleri aranır.
-- **Memory Safety**: Rust dili sayesinde buffer overflow, use-after-free gibi klasik C/C++ zafiyetleri compile-time’da engellenir.
-- **Tam Error Handling**: Hiçbir yerde `unwrap()` kullanılmamıştır.
-
-Bu sayede araç hem daha güvenli hem de daha az false positive üretir.
+##  Öne Çıkan Özellikler 
+1.  **Hata Yönetimi (Result<>):** Kod içerisinde `unwrap()` kullanılmamış, tüm dosya okuma ve ayrıştırma süreçleri Rust'ın `Result` yapısıyla güvenli hale getirilmiştir.
+2.  **Otomatik Sınıflandırma:** Bulunan stringler sadece ekrana basılmaz; IPv4 adresleri ve HTTP/HTTPS uç noktaları olarak kategorize edilir.
+3.  **Cross-Platform Destek:** Hem Windows (PE) hem de Linux (ELF) dosyalarını aynı motor üzerinden analiz edebilir.
+4.  **Unit Testler:** Kodun doğruluğu `cargo test` ile kanıtlanmış, Regex desenleri test senaryolarıyla doğrulanmıştır.
 
 ## Adım 1: Kurulum ve Install Analizi
 
