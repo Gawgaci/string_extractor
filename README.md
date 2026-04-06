@@ -1,20 +1,31 @@
-#  String Extractor (Rust-based RE Tool)
+# SAFE STRING EXTRACTOR
 
-##  Proje Özeti
-Bu proje, **Tersine Mühendislik** dersi vize ödevi kapsamında geliştirilmiş, bellek güvenli (**Memory-Safe**) bir binary analiz aracıdır. Standart `strings` komutunun ötesine geçerek, çalıştırılabilir dosyaların (PE/ELF) iç yapısını analiz eder ve siber güvenlik odaklı hassas verileri (C2 IP, URL, API Keys) otomatik olarak sınıflandırır.
+**Tersine Mühendislik Dersi Vize Projesi**
 
-##  Teknik Altyapı ve Metodoloji
-* **Dil:** Rust (Bellek güvenliği ve performans için tercih edilmiştir).
-* **Kütüphane:** `object` (Binary dosya bölümlerini -sections- ayrıştırmak için).
-* **Regex Motoru:** `regex::bytes` (Binary veriler içinde ham bayt seviyesinde arama yapmak için).
-* **Analiz Yaklaşımı:** "Section-Aware Parsing" yöntemiyle dosyanın sadece `.text`, `.data` veya `.rdata` gibi belirli bölümleri taranarak yanlış pozitif (False Positive) oranı minimize edilmiştir.
+Bu proje, zararlı yazılımların (malware) PE ve ELF formatındaki ikili (binary) dosyalarından gizli C2 (Command & Control) sunucu adreslerini, IP’leri ve URL’leri otomatik olarak tespit eden Rust tabanlı bir tersine mühendislik aracıdır.
 
-##  Öne Çıkan Özellikler (Hocanın Beklentileri)
-1.  **Hata Yönetimi (Result<>):** Kod içerisinde `unwrap()` kullanılmamış, tüm dosya okuma ve ayrıştırma süreçleri Rust'ın `Result` yapısıyla güvenli hale getirilmiştir.
-2.  **Otomatik Sınıflandırma:** Bulunan stringler sadece ekrana basılmaz; IPv4 adresleri ve HTTP/HTTPS uç noktaları olarak kategorize edilir.
-3.  **Cross-Platform Destek:** Hem Windows (PE) hem de Linux (ELF) dosyalarını aynı motor üzerinden analiz edebilir.
-4.  **Unit Testler:** Kodun doğruluğu `cargo test` ile kanıtlanmış, Regex desenleri test senaryolarıyla doğrulanmıştır.
+## Projenin Amacı
 
-##  Örnek Analiz Akışı
-```text
-Input: malware.exe ➔ [Parser] ➔ [Section Identification] ➔ [Regex Filter] ➔ Output
+Modern malware’ler C2 adreslerini, callback URL’lerini ve komuta-kontrol altyapısını binary içinde gizler. Klasik `strings` komutu çok fazla false positive verir ve section farkındalığı yoktur. Bu araç, **section-aware parsing** yöntemiyle sadece ilgili binary bölümlerini (.text, .data, .rsrc vb.) tarayarak şüpheli ağ göstergelerini daha doğru ve hızlı bir şekilde çıkarır.
+
+## İncelenen Zafiyet
+
+**Zafiyet:** Malware’lerin binary içinde gizlediği C2 IP/URL ve ağ iletişim bilgilerinin statik analizle kolayca ortaya çıkarılması (Information Disclosure / Hardcoded Secrets).
+
+Bu zafiyet, tersine mühendislik yapan saldırganların veya savunma ekiplerinin malware’in komuta-kontrol altyapısını hızlıca haritalandırmasına olanak tanır. Birçok malware, bu bilgileri şifrelemeden veya obfuskasyon uygulamadan binary’ye gömer.
+
+## Zafiyet Çözümü ve Kullanılan Teknikler
+
+- **Section-Aware Parsing**: `object` crate’i ile binary’nin sadece ilgili section’larını tarar. Tüm binary’yi byte-byte taramak yerine, `.text`, `.data`, `.rsrc` gibi bölümleri tek tek inceler.
+- **Regex ile Pattern Matching**: `regex::bytes` kullanılarak binary seviyesinde IP ve HTTP/HTTPS URL desenleri aranır.
+- **Memory Safety**: Rust dili sayesinde buffer overflow, use-after-free gibi klasik C/C++ zafiyetleri compile-time’da engellenir.
+- **Tam Error Handling**: Hiçbir yerde `unwrap()` kullanılmamıştır.
+
+Bu sayede araç hem daha güvenli hem de daha az false positive üretir.
+
+## Adım 1: Kurulum ve Install Analizi
+
+```bash
+git clone https://github.com/Gawgaci/string_extractor.git
+cd string_extractor
+cargo build --release
