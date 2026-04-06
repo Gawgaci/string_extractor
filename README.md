@@ -14,7 +14,7 @@ Modern malware’ler C2 adreslerini, callback URL’lerini ve komuta-kontrol alt
 
 Bu zafiyet, tersine mühendislik yapan saldırganların veya savunma ekiplerinin malware’in komuta-kontrol altyapısını hızlıca haritalandırmasına olanak tanır. Birçok malware, bu bilgileri şifrelemeden veya obfuskasyon uygulamadan binary’ye gömer.
 
-##  Öne Çıkan Özellikler 
+##  Öne Çıkan Özellikler (Hocanın Beklentileri)
 1.  **Hata Yönetimi (Result<>):** Kod içerisinde `unwrap()` kullanılmamış, tüm dosya okuma ve ayrıştırma süreçleri Rust'ın `Result` yapısıyla güvenli hale getirilmiştir.
 2.  **Otomatik Sınıflandırma:** Bulunan stringler sadece ekrana basılmaz; IPv4 adresleri ve HTTP/HTTPS uç noktaları olarak kategorize edilir.
 3.  **Cross-Platform Destek:** Hem Windows (PE) hem de Linux (ELF) dosyalarını aynı motor üzerinden analiz edebilir.
